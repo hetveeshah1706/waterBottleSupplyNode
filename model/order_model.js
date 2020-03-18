@@ -22,6 +22,10 @@ var order={
     },
     deleteAll:function(item,callback){
       return db.query("delete from order_tbl where order_id in (?)",[item],callback);
+   },
+   getOrderbyCustomerId:function(id,callback)
+   {
+     return db.query("select c.*,p.*,o.* from customer_tbl c,product_tbl p,order_tbl o where o.fk_customer_id=? and c.customer_id=o.fk_customer_id and p.pro_id=o.fk_pro_id",[id],callback);
    }
 }; 
 

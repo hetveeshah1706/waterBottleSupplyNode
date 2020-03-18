@@ -23,6 +23,28 @@ var order_delivery={
     },
     deleteAll:function(item,callback){
       return db.query("delete from order_delivery_table where order_delivery_id in (?)",[item],callback);
-   }
+   },
+   getAllOrderAssigned(callback)
+    {
+        return db.query('select od.*,o.*,e.*,p.* from order_delivery_table od,order_tbl o,product_tbl p,emp_tbl e where o.order_id=od.fk_order_id and e.emp_id=od.fk_emp_id and p.pro_id=o.fk_pro_id',callback);
+    },
+    getAllOrderNotAssigned(callback)
+    {
+      return db.query('SELECT o.*,c.*,p.* FROM order_tbl o,customer_tbl c,product_tbl p WHERE p.pro_id=o.fk_pro_id and c.customer_id=o.fk_customer_id and  o.order_id NOT IN ( SELECT od.fk_order_id FROM order_delivery_table od) ',callback)
+    },
+    AddOrderAssigned:function(item,callback)
+    {
+        var arr1=[];
+        if(item != null) {
+            for (let i = 0; i < item.selectedOrderArr.length; i++) {
+                const order_id = item.selectedOrderArr[i];
+                const emp_id = item.selectedEmployeeID;
+                const delivery_date=new Date();
+                const comment="Assigned"
+                arr1.push([order_id,emp_id,delivery_date,comment]);
+            }
+           return db.query("insert into order_delivery_table (fk_order_id,fk_emp_id,delivery_date,comment) values ?",[arr1],callback); 
+        }
+    }
 };
 module.exports=order_delivery;

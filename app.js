@@ -26,7 +26,12 @@ var orderdeliveryroutes=require('./routes/order_delivery_routes');
 var billroutes=require('./routes/bill_routes');
 var emailroutes=require('./routes/demomail');
 var customersForBill=require('./routes/getCusomersOnBill');
-var getBillDetails=require('./routes/getBillDetailsRoutes')
+var getBillDetails=require('./routes/getBillDetailsRoutes');
+var pastdetails=require('./routes/pastorder_router');
+var orderAssigned=require('./routes/orderAssigned_routes');
+var orderNotAssigned=require('./routes/orderDeliveryNotAssigned')
+var userLogin=require('./routes/user_routes_login')
+var userOrder=require('./routes/order_user_routes')
 
 var app = express();
 
@@ -55,14 +60,19 @@ app.use('/deleteproduct',deleteproduct_Router);
 app.use('/deleteorder',deleteorder_Router);
 app.use('/deleteorderdel',deleteorderdel_Router);
 app.use('/emp',empRouter);
+app.use('/pastorder',pastdetails);
 app.use('/product',productRouter);
 app.use('/stock',stockRouter);
 app.use('/order',orderroutes);
 app.use('/orderdelivery',orderdeliveryroutes);
 app.use('/bill',billroutes);
 app.use('/email',emailroutes);
-app.use('/customersForBill',customersForBill)
-app.use('/getBillDetails',getBillDetails)
+app.use('/customersForBill',customersForBill);
+app.use('/getBillDetails',getBillDetails);
+app.use('/orderAssigned',orderAssigned);
+app.use('/orderNotAssigned',orderNotAssigned);
+app.use('/userLogin',userLogin)
+app.use('/userOrder',userOrder)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
